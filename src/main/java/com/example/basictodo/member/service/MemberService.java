@@ -30,20 +30,16 @@ public class MemberService {
         return new MemberSaveResponseDto(saved.getId(), saved.getEmail(), saved.getName());
     }
 
-    @Transactional(readOnly = true)
     // 멤버 전체 조회
+    @Transactional(readOnly = true)
     public List<MemberFindResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
-
-        List<MemberFindResponseDto> dtos = new ArrayList<>();
-        for (Member member : members) {
-            dtos.add(new MemberFindResponseDto(member.getId(), member.getEmail(), member.getName()));
-        }
-        return dtos;
+        return members.stream().map(member -> new MemberFindResponseDto(
+                member.getId(), member.getEmail(), member.getName())).toList();
     }
 
-    @Transactional(readOnly = true)
     // 멤버 단건 조회
+    @Transactional(readOnly = true)
     public MemberFindResponseDto findById(Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
@@ -51,8 +47,8 @@ public class MemberService {
         return new MemberFindResponseDto(member.getId(), member.getEmail(), member.getName());
     }
 
-    @Transactional
     // 멤버 수정
+    @Transactional
     public void update(Long memberId, MemberUpdateRequestDto dto) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
@@ -60,11 +56,12 @@ public class MemberService {
         member.update(dto.getEmail(), dto.getName());
     }
 
-    @Transactional
     // 멤버 삭제
+    @Transactional
     public void delete(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
+        if (!memberRepository.existsById(memberId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다.");
+        }
 
         memberRepository.deleteById(memberId);
     }
