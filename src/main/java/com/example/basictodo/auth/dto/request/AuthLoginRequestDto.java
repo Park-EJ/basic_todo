@@ -1,4 +1,4 @@
-package com.example.basictodo.auth.dto;
+package com.example.basictodo.auth.dto.request;
 
 import lombok.Getter;
 
