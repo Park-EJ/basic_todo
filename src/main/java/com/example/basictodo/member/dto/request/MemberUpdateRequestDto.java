@@ -7,4 +7,5 @@ public class MemberUpdateRequestDto {
 
     private String email;
     private String name;
+
 }

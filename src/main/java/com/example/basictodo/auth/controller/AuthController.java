@@ -41,4 +41,5 @@ public class AuthController {
             session.invalidate();
         }
     }
+
 }

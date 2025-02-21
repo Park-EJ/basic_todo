@@ -10,4 +10,5 @@ public class AuthLoginResponsetDto {
     public AuthLoginResponsetDto(Long memberId) {
         this.memberId = memberId;
     }
+
 }

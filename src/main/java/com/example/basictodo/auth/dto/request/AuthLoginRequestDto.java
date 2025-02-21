@@ -7,4 +7,5 @@ public class AuthLoginRequestDto {
 
     private String email;
     private String password;
+
 }
