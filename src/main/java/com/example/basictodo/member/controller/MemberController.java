@@ -1,9 +1,8 @@
 package com.example.basictodo.member.controller;
 
-import com.example.basictodo.member.dto.request.MemberSaveRequestDto;
+import com.example.basictodo.common.consts.Const;
 import com.example.basictodo.member.dto.request.MemberUpdateRequestDto;
 import com.example.basictodo.member.dto.response.MemberFindResponseDto;
-import com.example.basictodo.member.dto.response.MemberSaveResponseDto;
 import com.example.basictodo.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +29,16 @@ public class MemberController {
     }
 
     // 멤버 수정
-    @PutMapping("/members/{memberId}")
-    public void update(@PathVariable Long memberId, @RequestBody MemberUpdateRequestDto dto) {
+    @PutMapping("/members")
+    public void update(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @RequestBody MemberUpdateRequestDto dto) {
         memberService.update(memberId, dto);
     }
 
     // 멤버 삭제
-    @DeleteMapping("/members/{memberId}")
-    public void delete(@PathVariable Long memberId) {
+    @DeleteMapping("/members")
+    public void delete(@SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId) {
         memberService.delete(memberId);
     }
 

@@ -17,15 +17,16 @@ public class Member {
     private Long id;
 
     private String email;
-    private String password;
+    private String name;
 
-    public Member(String email, String password) {
+    public Member(String email, String name) {
         this.email = email;
-        this.password = password;
+        this.name = name;
     }
 
-    public void update(String email) {
+    public void update(String email,String name) {
         this.email = email;
+        this.name = name;
     }
 
 }

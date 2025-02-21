@@ -1,5 +1,6 @@
 package com.example.basictodo.todo.controller;
 
+import com.example.basictodo.common.consts.Const;
 import com.example.basictodo.todo.dto.request.TodoSaveRequestDto;
 import com.example.basictodo.todo.dto.request.TodoUpdateRequestDto;
 import com.example.basictodo.todo.dto.response.TodoFindResponseDto;
@@ -20,8 +21,11 @@ public class TodoController {
 
     // 일정 생성
     @PostMapping("/todos")
-    public ResponseEntity<TodoSaveResponseDto> save(@RequestBody TodoSaveRequestDto dto) {
-        return ResponseEntity.ok(todoService.save(dto));
+    public ResponseEntity<TodoSaveResponseDto> save(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @RequestBody TodoSaveRequestDto dto
+    ) {
+        return ResponseEntity.ok(todoService.save(memberId, dto));
     }
 
     // 일정 전체 조회
@@ -38,14 +42,20 @@ public class TodoController {
 
     // 일정 수정
     @PutMapping("/todos/{todoId}")
-    public ResponseEntity<TodoUpdateResponseDto> update(@PathVariable Long todoId, @RequestBody TodoUpdateRequestDto dto) {
-        return ResponseEntity.ok(todoService.update(todoId, dto));
+    public ResponseEntity<TodoUpdateResponseDto> update(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @PathVariable Long todoId,
+            @RequestBody TodoUpdateRequestDto dto
+    ) {
+        return ResponseEntity.ok(todoService.update(memberId, todoId, dto));
     }
-
     // 일정 삭제
     @DeleteMapping("/todos/{todoId}")
-    public void delete(@PathVariable Long todoId) {
-        todoService.delete(todoId);
+    public void delete(
+            @SessionAttribute(name = Const.LOGIN_MEMBER) Long memberId,
+            @PathVariable Long todoId
+    ) {
+        todoService.delete(memberId, todoId);
     }
 
 }

@@ -1,9 +1,7 @@
 package com.example.basictodo.member.service;
 
-import com.example.basictodo.member.dto.request.MemberSaveRequestDto;
 import com.example.basictodo.member.dto.request.MemberUpdateRequestDto;
 import com.example.basictodo.member.dto.response.MemberFindResponseDto;
-import com.example.basictodo.member.dto.response.MemberSaveResponseDto;
 import com.example.basictodo.member.entity.Member;
 import com.example.basictodo.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,7 @@ public class MemberService {
     @Transactional(readOnly = true)
     public List<MemberFindResponseDto> findAll() {
         List<Member> members = memberRepository.findAll();
-        return members.stream().map(member -> new MemberFindResponseDto(member.getId(), member.getEmail())).toList();
+        return members.stream().map(member -> new MemberFindResponseDto(member.getId(), member.getEmail(), member.getName())).toList();
     }
 
     // 멤버 단건 조회
@@ -33,7 +31,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
 
-        return new MemberFindResponseDto(member.getId(), member.getEmail());
+        return new MemberFindResponseDto(member.getId(), member.getEmail(), member.getName());
     }
 
     // 멤버 수정
@@ -42,16 +40,12 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
 
-        member.update(dto.getEmail());
+        member.update(dto.getEmail(), dto.getName());
     }
 
     // 멤버 삭제
     @Transactional
     public void delete(Long memberId) {
-        if (!memberRepository.existsById(memberId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다.");
-        }
-
         memberRepository.deleteById(memberId);
     }
 
