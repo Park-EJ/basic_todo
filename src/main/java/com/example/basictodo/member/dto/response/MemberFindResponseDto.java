@@ -7,12 +7,10 @@ public class MemberFindResponseDto {
 
     private final Long id;
     private final String email;
-    private final String name;
 
-    public MemberFindResponseDto(Long id, String email, String name) {
+    public MemberFindResponseDto(Long id, String email) {
         this.id = id;
         this.email = email;
-        this.name = name;
     }
 
 }

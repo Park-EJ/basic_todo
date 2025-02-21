@@ -8,12 +8,10 @@ public class MemberSaveResponseDto {
 
     private final Long id;
     private final String email;
-    private final String name;
 
-    public MemberSaveResponseDto(Long id, String email, String name) {
+    public MemberSaveResponseDto(Long id, String email) {
         this.id = id;
         this.email = email;
-        this.name = name;
     }
 
 }

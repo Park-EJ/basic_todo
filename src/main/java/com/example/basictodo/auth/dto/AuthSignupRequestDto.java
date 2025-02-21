@@ -1,11 +1,10 @@
-package com.example.basictodo.member.dto.request;
+package com.example.basictodo.auth.dto;
 
 import lombok.Getter;
 
 @Getter
-public class MemberSaveRequestDto {
+public class AuthSignupRequestDto {
 
     private String email;
     private String password;
-
 }
