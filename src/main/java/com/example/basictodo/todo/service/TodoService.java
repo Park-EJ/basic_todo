@@ -25,14 +25,16 @@ public class TodoService {
     private final TodoRepository todoRepository;
     public final MemberRepository memberRepository;
 
-    // 일정 생성
+    // 일정 저장
     @Transactional
     public TodoSaveResponseDto save(Long memberId, TodoSaveRequestDto dto) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
 
         Todo todo = new Todo(dto.getContent(), member);
+
         Todo saved = todoRepository.save(todo);
+
         return new TodoSaveResponseDto(
                 saved.getId(),
                 saved.getContent(),
