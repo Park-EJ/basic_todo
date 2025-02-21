@@ -17,12 +17,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 멤버 생성
-    @PostMapping("/members")
-    public ResponseEntity<MemberSaveResponseDto> save(@RequestBody MemberSaveRequestDto dto) {
-        return ResponseEntity.ok(memberService.save(dto));
-    }
-
     // 멤버 전체 조회
     @GetMapping("/members")
     public ResponseEntity<List<MemberFindResponseDto>> findAll() {

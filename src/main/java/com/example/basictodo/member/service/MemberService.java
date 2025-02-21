@@ -20,14 +20,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    // 멤버 생성
-    @Transactional
-    public MemberSaveResponseDto save(MemberSaveRequestDto dto) {
-        Member member = new Member(dto.getEmail(), dto.getPassword());
-        Member saved = memberRepository.save(member);
-        return new MemberSaveResponseDto(saved.getId(), saved.getEmail());
-    }
-
     // 멤버 전체 조회
     @Transactional(readOnly = true)
     public List<MemberFindResponseDto> findAll() {
