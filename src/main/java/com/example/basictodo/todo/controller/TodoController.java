@@ -3,7 +3,8 @@ package com.example.basictodo.todo.controller;
 import com.example.basictodo.common.consts.Const;
 import com.example.basictodo.todo.dto.request.TodoSaveRequestDto;
 import com.example.basictodo.todo.dto.request.TodoUpdateRequestDto;
-import com.example.basictodo.todo.dto.response.TodoFindResponseDto;
+import com.example.basictodo.todo.dto.response.TodoFindAllResponseDto;
+import com.example.basictodo.todo.dto.response.TodoFindByIdResponseDto;
 import com.example.basictodo.todo.dto.response.TodoSaveResponseDto;
 import com.example.basictodo.todo.dto.response.TodoUpdateResponseDto;
 import com.example.basictodo.todo.service.TodoService;
@@ -30,13 +31,13 @@ public class TodoController {
 
     // 일정 전체 조회
     @GetMapping("/todos")
-    public ResponseEntity<List<TodoFindResponseDto>> findAll() {
+    public ResponseEntity<List<TodoFindAllResponseDto>> findAll() {
         return ResponseEntity.ok(todoService.findAll());
     }
 
     // 일정 단건 조회
     @GetMapping("/todos/{todoId}")
-    public ResponseEntity<TodoFindResponseDto> findById(@PathVariable Long todoId) {
+    public ResponseEntity<TodoFindByIdResponseDto> findById(@PathVariable Long todoId) {
         return ResponseEntity.ok(todoService.findById(todoId));
     }
 

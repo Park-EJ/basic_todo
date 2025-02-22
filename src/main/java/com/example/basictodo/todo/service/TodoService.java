@@ -4,7 +4,8 @@ import com.example.basictodo.member.entity.Member;
 import com.example.basictodo.member.repository.MemberRepository;
 import com.example.basictodo.todo.dto.request.TodoSaveRequestDto;
 import com.example.basictodo.todo.dto.request.TodoUpdateRequestDto;
-import com.example.basictodo.todo.dto.response.TodoFindResponseDto;
+import com.example.basictodo.todo.dto.response.TodoFindAllResponseDto;
+import com.example.basictodo.todo.dto.response.TodoFindByIdResponseDto;
 import com.example.basictodo.todo.dto.response.TodoSaveResponseDto;
 import com.example.basictodo.todo.dto.response.TodoUpdateResponseDto;
 import com.example.basictodo.todo.entity.Todo;
@@ -46,23 +47,23 @@ public class TodoService {
 
     // 일정 전체 조회
     @Transactional(readOnly = true)
-    public List<TodoFindResponseDto> findAll() {
+    public List<TodoFindAllResponseDto> findAll() {
         List<Todo> todos = todoRepository.findAll();
 
-        List<TodoFindResponseDto> dtos = new ArrayList<>();
+        List<TodoFindAllResponseDto> dtos = new ArrayList<>();
         for (Todo todo : todos) {
-            dtos.add(new TodoFindResponseDto(todo.getId(), todo.getContent()));
+            dtos.add(new TodoFindAllResponseDto(todo.getId(), todo.getContent()));
         }
         return dtos;
     }
 
     // 일정 단건 조회
     @Transactional(readOnly = true)
-    public TodoFindResponseDto findById(Long todoId) {
+    public TodoFindByIdResponseDto findById(Long todoId) {
         Todo todo = todoRepository.findById(todoId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 일정이 존재하지 않습니다."));
 
-        return new TodoFindResponseDto(todo.getId(), todo.getContent());
+        return new TodoFindByIdResponseDto(todo.getId(), todo.getContent(), todo.getMember().getId());
     }
 
     // 일정 수정
