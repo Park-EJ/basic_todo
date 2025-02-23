@@ -20,8 +20,12 @@ public class AuthService {
     // 회원가입
     @Transactional
     public void signup(AuthSignupRequestDto dto) {
-        Member member = new Member(dto.getEmail(), dto.getPassword());
-        memberRepository.save(member);
+        if (memberRepository.existsByEmail(dto.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "해당 이메일은 이미 사용중입니다.");
+        }
+
+        Member saved = new Member(dto.getEmail(), dto.getPassword());
+        memberRepository.save(saved);
     }
 
     // 로그인
@@ -29,6 +33,10 @@ public class AuthService {
     public AuthLoginResponsetDto login(AuthLoginRequestDto dto) {
         Member member = memberRepository.findByEmail(dto.getEmail()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 Email이 존재하지 않습니다."));
+
+        if (!dto.getPassword().equals(member.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.");
+        }
 
         return new AuthLoginResponsetDto(member.getId());
     }
