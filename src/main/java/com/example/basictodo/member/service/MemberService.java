@@ -40,7 +40,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "해당 ID가 존재하지 않습니다."));
 
-        member.update(dto.getEmail(), dto.getName());
+        member.update(dto.getName());
     }
 
     // 멤버 삭제

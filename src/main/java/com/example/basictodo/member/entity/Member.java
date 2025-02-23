@@ -25,8 +25,7 @@ public class Member {
         this.password = password;
     }
 
-    public void update(String email, String name) {
-        this.email = email;
+    public void update(String name) {
         this.name = name;
     }
 
